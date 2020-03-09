@@ -31,7 +31,10 @@ export default function(shouldTrack, callback) {
     if (shouldTrack) {
       startWatching();
     } else {
-      subscriber.remove();
+      if (subscriber) {
+        subscriber.remove();
+        return;
+      }
       setsubscriber(null);
     }
   }, [shouldTrack]);

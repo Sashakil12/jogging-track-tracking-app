@@ -45,7 +45,6 @@ const signUp = dispatch => async ({ email, password }) => {
     dispatch({ type: "SIGN UP", payload: response.data.token });
     RootNavigation.navigate("Account");
   } catch (e) {
-    console.log(e);
     dispatch({ type: "SIGN UP ERROR", payload: "Something went wrong!" });
   }
 };

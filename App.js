@@ -15,6 +15,7 @@ import {
   Provider as AuthProvider
 } from "./src/context/authContext";
 import { Provider as LocationProvider } from "./src/context/locationContext";
+import { Provider as TracksProvider } from "./src/context/tracksContext";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -23,8 +24,22 @@ const styles = StyleSheet.create({});
 const TrackListFlow = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Track List" component={TrackListScreen} />
-      <Stack.Screen name="Track Details" component={TrackDetailScreen} />
+      <Stack.Screen
+        options={{
+          title: "",
+          header: () => null
+        }}
+        name="Track List"
+        component={TrackListScreen}
+      />
+      <Stack.Screen
+        options={{
+          title: "",
+          header: () => null
+        }}
+        name="Track Details"
+        component={TrackDetailScreen}
+      />
     </Stack.Navigator>
   );
 };
@@ -38,41 +53,46 @@ export default function App() {
   return (
     <AuthProvider>
       <LocationProvider>
-        <NavigationContainer ref={navigationRef}>
-          <AuthContext.Consumer>
-            {value =>
-              !value.state.token ? (
-                <Stack.Navigator initialRouteName="Sign Up">
-                  <Stack.Screen
-                    name="Sign Up"
-                    options={{
-                      title: "",
-                      header: () => null
-                    }}
-                    component={SignUpScreen}
-                  />
-                  <Stack.Screen
-                    name="Sign In"
-                    options={{
-                      title: "",
-                      header: () => null
-                    }}
-                    component={SignInScreen}
-                  />
-                </Stack.Navigator>
-              ) : (
-                <Tab.Navigator initialRouteName="Tracks" backBehavior="history">
-                  <Tab.Screen
-                    name="Create Track"
-                    component={TrackCreateScreen}
-                  />
-                  <Tab.Screen name="Tracks" component={TrackListFlow} />
-                  <Tab.Screen name="Account" component={AccountScreen} />
-                </Tab.Navigator>
-              )
-            }
-          </AuthContext.Consumer>
-        </NavigationContainer>
+        <TracksProvider>
+          <NavigationContainer ref={navigationRef}>
+            <AuthContext.Consumer>
+              {value =>
+                !value.state.token ? (
+                  <Stack.Navigator initialRouteName="Sign Up">
+                    <Stack.Screen
+                      name="Sign Up"
+                      options={{
+                        title: "",
+                        header: () => null
+                      }}
+                      component={SignUpScreen}
+                    />
+                    <Stack.Screen
+                      name="Sign In"
+                      options={{
+                        title: "",
+                        header: () => null
+                      }}
+                      component={SignInScreen}
+                    />
+                  </Stack.Navigator>
+                ) : (
+                  <Tab.Navigator
+                    initialRouteName="Tracks"
+                    backBehavior="history"
+                  >
+                    <Tab.Screen
+                      name="Create Track"
+                      component={TrackCreateScreen}
+                    />
+                    <Tab.Screen name="Tracks" component={TrackListFlow} />
+                    <Tab.Screen name="Account" component={AccountScreen} />
+                  </Tab.Navigator>
+                )
+              }
+            </AuthContext.Consumer>
+          </NavigationContainer>
+        </TracksProvider>
       </LocationProvider>
     </AuthProvider>
   );
