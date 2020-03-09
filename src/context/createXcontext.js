@@ -10,7 +10,7 @@ export default function(reducer, actions, init) {
       boundActions[action] = actions[action](dispatch);
     }
     return (
-      <Context.Provider value={{state, ...boundActions }}>
+      <Context.Provider value={{ state, ...boundActions }}>
         {children}
       </Context.Provider>
     );

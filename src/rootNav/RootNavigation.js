@@ -8,11 +8,10 @@ export const navigationRef = React.createRef();
 
 export function navigate(name, params) {
   if (isMountedRef.current && navigationRef.current) {
-    // Perform navigation if the app has mounted
     try {
       navigationRef.current.navigate(name, params);
     } catch (e) {
-      console.log(e);
+      return;
     }
   }
 }
